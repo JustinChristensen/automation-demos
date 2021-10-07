@@ -1,0 +1,27 @@
+FROM ubuntu:hirsute
+
+RUN yes | unminimize
+
+RUN \
+apt-get update -y && \
+apt-get install -y \
+bind9-dnsutils \
+bind9-utils \
+inetutils-ping \
+less \
+man-db \
+openssh-client \
+vim
+
+RUN \
+ssh-keygen -t ed25519 -C "foo@example.com" -f ~/.ssh/id_ed25519 -N ''
+
+COPY rndc.key /etc/bind/
+
+WORKDIR /root
+COPY db.foo.corp .
+COPY .bash_history .
+COPY .bash_profile .
+COPY .digrc .
+
+ENTRYPOINT ["bash", "-l"]

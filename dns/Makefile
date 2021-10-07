@@ -1,21 +1,19 @@
-NAME := bind-demo
-HOSTNAME := ns
-PORT := 5553
-CNTRL_PORT := 5953
-
 .PHONY: all
-all: run
+all: run-server
 
 .PHONY: build
 build:
-	docker build -t $(NAME) .
+	docker compose build
 
-.PHONY: run
-run: PUBLISH_LIST := -p 127.0.0.1:$(PORT):53/tcp -p 127.0.0.1:$(PORT):53/udp -p 127.0.0.1:$(CNTRL_PORT):953/tcp 
-run: build
-	docker run -it --name $(NAME) $(PUBLISH_LIST) --hostname $(HOSTNAME) $(NAME)
+.PHONY: run-server
+run-server: build
+	docker compose run server
+
+.PHONY: run-controller
+run-controller: build
+	docker compose run controller
 
 .PHONY: clean
-clean: 
-	docker container prune -f
+clean:
+	docker compose down
 

@@ -4,13 +4,18 @@ RUN \
 apt-get update -y && \
 apt-get install -y \
 bind9 \
-iproute2
+iproute2 \
+openssh-server
 
 COPY rndc.key /etc/bind/
+COPY named.conf.options /etc/bind/
+COPY server-entrypoint.sh /usr/local/bin/
 
 RUN \
+echo 'root:root' | chpasswd && \
+echo 'PermitRootLogin yes' >> /etc/ssh/sshd_config && \
 echo 'controls { inet * allow { localnets; }; };' >> /etc/bind/named.conf.local
 
-EXPOSE 53 53/udp 953
+EXPOSE 22 53 53/udp 953
 
-ENTRYPOINT ["named", "-4", "-g"]
+ENTRYPOINT ["server-entrypoint.sh"]

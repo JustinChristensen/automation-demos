@@ -2,10 +2,15 @@ services:
   server:
     build:
       dockerfile: ./Server
-    hostname: ns
-  client:
+    ports:
+      - "127.0.0.1:5022:22/tcp"
+      - "127.0.0.1:5553:53/tcp"
+      - "127.0.0.1:5553:53/udp"
+      - "127.0.0.1:5953:953/tcp"
+    hostname: rabbit
+  controller:
     build:
-      dockerfile: ./Client
-    hostname: ns_client
+      dockerfile: ./Controller
+    hostname: charlie
     stdin_open: true
     tty: true

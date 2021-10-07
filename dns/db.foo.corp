@@ -1,0 +1,5 @@
+$TTL 86400
+@ IN SOA foo.corp. root.foo.corp. 0 604800 86400 2419200 86400
+@ IN NS  rabbit.
+@ IN A   127.0.0.1
+
