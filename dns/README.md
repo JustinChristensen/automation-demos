@@ -1,14 +1,21 @@
 # Adding new DNS zones on the fly
 
-## Pre-requisites 
+## Prerequisites 
 
 * [Docker](https://www.docker.com/): Enable v2 compose
 
 ## Running 
 
 ```bash
+# start the DNS server and a controller 
 make run-server
 make run-controller
+
+# run the demo
+# ...
+
+# clean up
+make clean
 ```
 
 ## Demo

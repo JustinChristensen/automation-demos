@@ -1,0 +1,14 @@
+root@charlie:~# dig @rabbit foo.corp SOA
+root@charlie:~# dig @rabbit foo.corp
+root@charlie:~# scp db.foo.corp rabbit:/etc/bind/
+The authenticity of host 'rabbit (172.20.0.2)' can't be established.
+ECDSA key fingerprint is SHA256:9FgsqSjVd7EcWTv1KxD291j8OUeSOgL1mrTt9gZTKXo.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added 'rabbit,172.20.0.2' (ECDSA) to the list of known hosts.
+root@rabbit's password:
+db.foo.corp                                                                                                                                                                                                                                   100%  111    98.5KB/s   00:00
+root@charlie:~# rndc -s rabbit addzone 'foo.corp' '{ type master; file "/etc/bind/db.foo.corp"; };'
+root@charlie:~# dig @rabbit foo.corp SOA
+foo.corp.		86400	IN	SOA	foo.corp. root.foo.corp. 0 604800 86400 2419200 86400
+root@charlie:~# dig @rabbit foo.corp
+foo.corp.		86400	IN	A	127.0.0.1
