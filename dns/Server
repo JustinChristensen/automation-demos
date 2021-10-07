@@ -1,0 +1,16 @@
+FROM ubuntu:hirsute
+
+RUN \
+apt-get update -y && \
+apt-get install -y \
+bind9 \
+iproute2
+
+COPY rndc.key /etc/bind/
+
+RUN \
+echo 'controls { inet * allow { localnets; }; };' >> /etc/bind/named.conf.local
+
+EXPOSE 53 53/udp 953
+
+ENTRYPOINT ["named", "-4", "-g"]

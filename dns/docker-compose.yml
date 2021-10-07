@@ -1,0 +1,11 @@
+services:
+  server:
+    build:
+      dockerfile: ./Server
+    hostname: ns
+  client:
+    build:
+      dockerfile: ./Client
+    hostname: ns_client
+    stdin_open: true
+    tty: true
